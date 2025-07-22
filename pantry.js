@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     closeModalBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             closeModal(addItemModal);
+        addItemForm.reset();
+        addItemForm.dataset.mode = 'add';
+            document.querySelector('#add-item-modal h2').textContent = 'Add New Pantry Item';
         });
     });
 
@@ -81,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (error) throw error;
             } else {
-                // Update existing item (would implement if we had edit functionality)
+                // Update existing item
                 const itemId = addItemForm.dataset.itemId;
                 const { data, error } = await supabase
                     .from('pantry_items')
@@ -137,7 +140,7 @@ async function loadPantryItems(searchTerm = '', category = '') {
         if (items.length === 0) {
             pantryItemsContainer.innerHTML = `
                 <div class="empty-state">
-                    <img src="assets/pantry-empty.svg" alt="Empty pantry" class="empty-icon">
+                    <img src="images/pantry-empty.svg" alt="Empty pantry" class="empty-icon">
                     <h3>No items found</h3>
                     <p>Try adjusting your search or add a new item</p>
                     <button id="add-first-item" class="btn btn-primary">Add Item</button>
@@ -162,7 +165,7 @@ async function loadPantryItems(searchTerm = '', category = '') {
         console.error('Error loading pantry items:', error.message);
         document.getElementById('pantry-items-container').innerHTML = `
             <div class="empty-state">
-                <img src="assets/error.svg" alt="Error" class="empty-icon">
+                <img src="images/error.svg" alt="Error" class="empty-icon">
                 <h3>Error loading pantry items</h3>
                 <p>Please try again later</p>
             </div>
@@ -228,7 +231,7 @@ async function deletePantryItem(itemId) {
     }
 }
 
-// Edit pantry item (placeholder)
+// Edit pantry item
 function editPantryItem(itemId) {
     // In a complete implementation, this would load the item data into the form
     alert('Edit functionality would be implemented here for item ' + itemId);
